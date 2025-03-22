@@ -1,0 +1,55 @@
+/* Page layout remains centered */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    text-align: center;
+}
+
+/* Moves only the table further to the right */
+.table-container {
+    display: flex;
+    justify-content: flex-start; /* Keep it left-aligned inside the div */
+    width: 100%;
+    padding-left: 300px; /* Move it to the right */
+}
+
+/* Prevents table from stretching */
+.table-container table {
+    width: fit-content;
+    max-width: 900px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+/* Moves dropdown to align with the table */
+.controls-container {
+    display: flex;
+    justify-content: flex-end; /* Push it to the right */
+    width: 100%;
+    padding-right: 400px; /* Matches table position */
+    margin-bottom: 20px;
+}
+
+
+/* Ensures pagination aligns exactly with the table */
+.pagination-container {
+    display: flex;
+    justify-content: flex-start; /* Aligns with the table */
+    width: fit-content; /* Matches the table width */
+    margin-left: auto; /* Pushes it to the same right position */
+    margin-right: 340px; /* Moves it further to the right */
+    gap: 15px; /* Keeps button spacing */
+    margin-top: 20px;
+}
+
+/* Moves the bookstore heading to the right */
+.header-container {
+    display: flex;
+    justify-content: flex-start; /* Aligns with table */
+    width: 100%;
+    padding-left: 635px; /* Matches table position */
+}
