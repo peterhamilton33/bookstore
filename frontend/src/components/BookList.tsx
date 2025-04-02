@@ -19,10 +19,28 @@ const BookList = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
+  const [category, setCategory] = useState("All");
+  const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5135/api/books?page=${page}&pageSize=${pageSize}`)
+      .get("http://localhost:5135/api/books/categories")
+      .then((res) => {
+        setCategories(res.data);
+      })
+      .catch((err) => {
+        console.error("Failed to load categories:", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    const categoryQuery =
+      category !== "All" ? `&category=${encodeURIComponent(category)}` : "";
+
+    axios
+      .get(
+        `http://localhost:5135/api/books?page=${page}&pageSize=${pageSize}${categoryQuery}`
+      )
       .then((res) => {
         setBooks(res.data.books);
         setTotalPages(res.data.totalPages);
@@ -31,23 +49,42 @@ const BookList = () => {
         console.error("API fetch failed:", err);
         setBooks([]);
       });
-  }, [page, pageSize]);
+  }, [page, pageSize, category]);
 
   return (
     <div className="bookstore-container">
       <h1>📚 Bookstore</h1>
+
       <label>
         Books per page:
         <select
           value={pageSize}
           onChange={(e) => {
             setPageSize(parseInt(e.target.value));
-            setPage(1); // reset to first page on change
+            setPage(1);
           }}
         >
           <option value={5}>5</option>
           <option value={10}>10</option>
           <option value={20}>20</option>
+        </select>
+      </label>
+
+      <label>
+        Filter by category:
+        <select
+          value={category}
+          onChange={(e) => {
+            setCategory(e.target.value);
+            setPage(1);
+          }}
+        >
+          <option value="All">All</option>
+          {categories.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
         </select>
       </label>
 
@@ -75,7 +112,7 @@ const BookList = () => {
                 <td>{book.classification}</td>
                 <td>{book.category}</td>
                 <td>{book.pageCount}</td>
-                <td>${book.price}</td>
+                <td>${book.price.toFixed(2)}</td>
               </tr>
             ))
           ) : (
