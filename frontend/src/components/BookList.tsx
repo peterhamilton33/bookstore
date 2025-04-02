@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Form, Container, Button } from "react-bootstrap";
-import "../styles.css"; // Import CSS file
+import "../styles.css";
 
 interface Book {
   id: number;
@@ -15,56 +14,59 @@ interface Book {
   price: number;
 }
 
-const BookList: React.FC = () => {
+const BookList = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     axios
       .get(`http://localhost:5135/api/books?page=${page}&pageSize=${pageSize}`)
-      .then((res) => setBooks(res.data))
-      .catch((err) => console.error(err));
+      .then((res) => {
+        setBooks(res.data.books);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((err) => {
+        console.error("API fetch failed:", err);
+        setBooks([]);
+      });
   }, [page, pageSize]);
 
   return (
-    <Container className="page-container">
-     <div className="header-container">
-    <h2 className="mb-4">📚 Bookstore</h2>
-    </div>
-      {/* Books per page dropdown */}
-      <div className="controls-container">
-        <Form.Group controlId="pageSize">
-          <Form.Label className="fw-bold">Books per page:</Form.Label>
-          <Form.Select
-            value={pageSize}
-            onChange={(e) => setPageSize(Number(e.target.value))}
-            className="text-center"
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </Form.Select>
-        </Form.Group>
-      </div>
+    <div className="bookstore-container">
+      <h1>📚 Bookstore</h1>
+      <label>
+        Books per page:
+        <select
+          value={pageSize}
+          onChange={(e) => {
+            setPageSize(parseInt(e.target.value));
+            setPage(1); // reset to first page on change
+          }}
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+        </select>
+      </label>
 
-      {/* Fully Centered Table */}
-      <div className="table-container">
-        <Table striped bordered hover responsive>
-          <thead className="table-dark">
-            <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Publisher</th>
-              <th>ISBN</th>
-              <th>Classification</th>
-              <th>Category</th>
-              <th>Pages</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {books.map((book) => (
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>ISBN</th>
+            <th>Classification</th>
+            <th>Category</th>
+            <th>Pages</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {books.length > 0 ? (
+            books.map((book) => (
               <tr key={book.id}>
                 <td>{book.title}</td>
                 <td>{book.author}</td>
@@ -73,22 +75,43 @@ const BookList: React.FC = () => {
                 <td>{book.classification}</td>
                 <td>{book.category}</td>
                 <td>{book.pageCount}</td>
-                <td>${book.price.toFixed(2)}</td>
+                <td>${book.price}</td>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={8}>No books found.</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
 
-      {/* Pagination - Fully Centered */}
       <div className="pagination-container">
-        <Button variant="primary" onClick={() => setPage(page - 1)} disabled={page === 1}>
+        <button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+        >
           Previous
-        </Button>
-        <span className="fs-5 mx-3">Page {page}</span>
-        <Button variant="primary" onClick={() => setPage(page + 1)}>Next</Button>
+        </button>
+
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            className={page === i + 1 ? "active" : ""}
+            onClick={() => setPage(i + 1)}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={page === totalPages}
+        >
+          Next
+        </button>
       </div>
-    </Container>
+    </div>
   );
 };
 

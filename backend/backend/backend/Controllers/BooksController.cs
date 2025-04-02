@@ -1,37 +1,47 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.Data;
-using backend.Models;
 using Microsoft.EntityFrameworkCore;
+using backend.Data; // Replace with your actual namespace
+using backend.Models; // Replace with your actual namespace
 
-namespace backend.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class BooksController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BooksController : ControllerBase
+    private readonly BookstoreContext _context;
+
+    public BooksController(BookstoreContext context)
     {
-        private readonly BookstoreContext _context;
+        _context = context;
+    }
 
-        public BooksController(BookstoreContext context)
+    [HttpGet]
+    public async Task<IActionResult> GetBooks(int page = 1, int pageSize = 5)
+    {
+        // Basic validation
+        if (page < 1) page = 1;
+        if (pageSize < 1 || pageSize > 100) pageSize = 5;
+
+        var totalBooks = await _context.Books.CountAsync();
+        int totalPages = (int)Math.Ceiling((double)totalBooks / pageSize);
+
+        if ((page - 1) * pageSize >= totalBooks && totalBooks > 0)
         {
-            _context = context;
+            page = 1; // reset to page 1 if page is out of range
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks(int page = 1, int pageSize = 5)
-        {
-            return await _context.Books
-                .OrderBy(b => b.Title)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-        }
+        var books = await _context.Books
+            .OrderBy(b => b.Title)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBook(int id)
+        return Ok(new
         {
-            var book = await _context.Books.FindAsync(id);
-            if (book == null) return NotFound();
-            return book;
-        }
+            books,
+            total = totalBooks,
+            totalPages,
+            currentPage = page,
+            pageSize
+        });
     }
 }
