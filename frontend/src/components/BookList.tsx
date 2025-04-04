@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles.css";
 import { useCart } from "../components/context/CartContext";
@@ -27,7 +27,7 @@ const BookList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5135/api/books/categories")
+      .get("https://bookstore-backend-hamilton1.azurewebsites.net/api/books/categories")
       .then((res) => setCategories(res.data))
       .catch((err) => console.error("Failed to load categories:", err));
   }, []);
@@ -37,7 +37,7 @@ const BookList = () => {
       category !== "All" ? `&category=${encodeURIComponent(category)}` : "";
     axios
       .get(
-        `http://localhost:5135/api/books?page=${page}&pageSize=${pageSize}${categoryParam}`
+        `https://bookstore-backend-hamilton1.azurewebsites.net/api/books?page=${page}&pageSize=${pageSize}${categoryParam}`
       )
       .then((res) => {
         setBooks(res.data.books);
