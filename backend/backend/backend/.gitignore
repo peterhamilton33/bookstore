@@ -1,6 +1,29 @@
-# Build results
-bin/
-obj/
+# Ignore build output
+/bin/
+/obj/
 
-# Rider-specific files
+# Rider IDE files
 .idea/
+/*.sln.iml
+
+# Cache files
+*.cache
+*.dbmdl
+*.log
+
+# User-specific files
+*.user
+*.vspscc
+*.vssscc
+
+# SQLite database (if you don’t want to track data changes)
+Bookstore.sqlite
+
+# Backup and temp files
+*.bak
+*.tmp
+*.swp
+*.suo
+
+# VS Code settings (optional if not relevant)
+.vscode/
