@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1mHTs9GWAek=",
+  "dgSpecHash": "wcY1uyRc/fk=",
   "success": true,
-  "projectFilePath": "/Users/peterhamilton/Desktop/bookstore/backend/backend/backend/backend.csproj",
+  "projectFilePath": "/Users/peterhamilton/Desktop/bookstore/bookstore/backend/backend/backend/backend.csproj",
   "expectedPackageFiles": [
     "/Users/peterhamilton/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/peterhamilton/.nuget/packages/microsoft.aspnetcore.openapi/8.0.13/microsoft.aspnetcore.openapi.8.0.13.nupkg.sha512",

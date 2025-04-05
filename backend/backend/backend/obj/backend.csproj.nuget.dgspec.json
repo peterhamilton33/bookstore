@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/peterhamilton/Desktop/bookstore/backend/backend/backend/backend.csproj": {}
+    "/Users/peterhamilton/Desktop/bookstore/bookstore/backend/backend/backend/backend.csproj": {}
   },
   "projects": {
-    "/Users/peterhamilton/Desktop/bookstore/backend/backend/backend/backend.csproj": {
+    "/Users/peterhamilton/Desktop/bookstore/bookstore/backend/backend/backend/backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/peterhamilton/Desktop/bookstore/backend/backend/backend/backend.csproj",
+        "projectUniqueName": "/Users/peterhamilton/Desktop/bookstore/bookstore/backend/backend/backend/backend.csproj",
         "projectName": "backend",
-        "projectPath": "/Users/peterhamilton/Desktop/bookstore/backend/backend/backend/backend.csproj",
+        "projectPath": "/Users/peterhamilton/Desktop/bookstore/bookstore/backend/backend/backend/backend.csproj",
         "packagesPath": "/Users/peterhamilton/.nuget/packages/",
-        "outputPath": "/Users/peterhamilton/Desktop/bookstore/backend/backend/backend/obj/",
+        "outputPath": "/Users/peterhamilton/Desktop/bookstore/bookstore/backend/backend/backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/peterhamilton/.nuget/NuGet/NuGet.Config"
