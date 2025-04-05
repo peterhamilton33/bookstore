@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "undefined/subscriptions/294f4eb0-4c33-4145-9bc0-ef1e175c93ba/resourceGroups/appsvc_windows_centralus/providers/Microsoft.Web/sites/bookstore-backend-hamilton",
+  "appService.deploySubpath": "backend/backend/backend/publish"
+}

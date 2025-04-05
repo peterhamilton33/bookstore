@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://localhost:5173",
-                "https://ambitious-pebble-07342301e.6.azurestaticapps.net"
+                "https://green-mushroom-024312b1e.6.azurestaticapps.net/"
             )
             .AllowAnyMethod()
             .AllowAnyHeader();
