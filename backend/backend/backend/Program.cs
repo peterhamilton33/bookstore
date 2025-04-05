@@ -9,7 +9,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // Allow frontend
+        policy.WithOrigins("http://localhost:5173",
+                "https://salmon-mud-08979721e.6.azurestaticapps.net") // Allow frontend
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
