@@ -27,7 +27,7 @@ const BookList = () => {
 
   useEffect(() => {
     axios
-      .get("https://bookstore-backend-hamilton1.azurewebsites.net/api/books/categories")
+      .get("https://bookstore-backend-hamilton.azurewebsites.net/api/books/categories")
       .then((res) => setCategories(res.data))
       .catch((err) => console.error("Failed to load categories:", err));
   }, []);
@@ -37,7 +37,7 @@ const BookList = () => {
       category !== "All" ? `&category=${encodeURIComponent(category)}` : "";
     axios
       .get(
-        `https://bookstore-backend-hamilton1.azurewebsites.net/api/books?page=${page}&pageSize=${pageSize}${categoryParam}`
+        `https://bookstore-backend-hamilton.azurewebsites.net/api/books?page=${page}&pageSize=${pageSize}${categoryParam}`
       )
       .then((res) => {
         setBooks(res.data.books);

@@ -19,7 +19,7 @@ const AdminBooks = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get('https://bookstore-backend-hamilton1.azurewebsites.net/api/books?page=1&pageSize=100');
+      const response = await axios.get('https://bookstore-backend-hamilton.azurewebsites.net/api/books?page=1&pageSize=100');
       setBooks(response.data.books);
     } catch (error) {
       console.error('Failed to fetch books', error);
@@ -39,9 +39,9 @@ const AdminBooks = () => {
     e.preventDefault();
     try {
       if (editingBook) {
-        await axios.put(`https://bookstore-backend-hamilton1.azurewebsites.net/api/books/${editingBook.id}`, newBook);
+        await axios.put(`https://bookstore-backend-hamilton.azurewebsites.net/api/books/${editingBook.id}`, newBook);
       } else {
-        await axios.post('https://bookstore-backend-hamilton1.azurewebsites.net/api/books', newBook);
+        await axios.post('https://bookstore-backend-hamilton.azurewebsites.net/api/books', newBook);
       }
       setNewBook({
         id: 0, title: '', author: '', publisher: '', isbn: '',
@@ -61,7 +61,7 @@ const AdminBooks = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`https://bookstore-backend-hamilton1.azurewebsites.net/api/books${id}`);
+      await axios.delete(`https://bookstore-backend-hamilton.azurewebsites.net/api/books${id}`);
       fetchBooks();
     } catch (error) {
       console.error('Failed to delete book', error);
