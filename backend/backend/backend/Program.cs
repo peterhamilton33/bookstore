@@ -10,7 +10,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins("http://localhost:5173",
-                "https://salmon-mud-08979721e.6.azurestaticapps.net") // Allow frontend
+                "https://ambitious-pebble-07342301e.6.azurestaticapps.net") // Allow frontend
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
