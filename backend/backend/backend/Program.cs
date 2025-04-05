@@ -1,39 +1,48 @@
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Enable CORS (Corrected Version)
+// Add services to the container.
+builder.Services.AddControllers();
+
+// Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173",
-                "https://ambitious-pebble-07342301e.6.azurestaticapps.net") // Allow frontend
+        policy.WithOrigins(
+                "http://localhost:5173",
+                "https://ambitious-pebble-07342301e.6.azurestaticapps.net"
+            )
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
 });
 
-builder.Services.AddDbContext<BookstoreContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddControllers();
+// Add Swagger (OpenAPI)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register your DbContext
+builder.Services.AddDbContext<BookstoreContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 var app = builder.Build();
 
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Apply CORS BEFORE Authorization
+// 🔥 Apply CORS BEFORE controllers
 app.UseCors("AllowFrontend");
 
+app.UseHttpsRedirection();
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();
