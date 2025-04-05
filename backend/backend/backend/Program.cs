@@ -9,16 +9,14 @@ builder.Services.AddControllers();
 // Configure CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
+    options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:5173",
-                "https://green-mushroom-024312b1e.6.azurestaticapps.net/"
-            )
+        policy.AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
 });
+
 
 // Add Swagger (OpenAPI)
 builder.Services.AddEndpointsApiExplorer();
@@ -38,7 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // 🔥 Apply CORS BEFORE controllers
-app.UseCors("AllowFrontend");
+app.UseCors();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
